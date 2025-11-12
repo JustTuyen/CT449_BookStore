@@ -1,0 +1,16 @@
+{
+  "name": "bookstore",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "dong thanh tuyen",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cords": "^1.0.4",
+    "express": "^5.1.0"
+  }
+}
