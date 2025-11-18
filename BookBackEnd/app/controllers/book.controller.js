@@ -84,3 +84,23 @@ exports.delete = async (req, res, next) =>{
         );
     }
 };
+
+
+exports.findNSX = async (req, res, next) => {
+    try {
+        const publisher = req.query.publisher; // ?email=value
+        const bookService = new BookService(MongoDB.client);
+        const book = await bookService.findByNSB(publisher); 
+
+        if (!publisher) {
+            return res.status(404).json({ message: "name not found" });
+        }
+
+        return res.json(book);
+
+    } catch (error) {
+        return next(
+            new ApiError(500, "An error occurred while retrieving name")
+        );
+    }
+};

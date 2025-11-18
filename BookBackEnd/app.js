@@ -9,6 +9,7 @@ const employeeRoutes = require("./app/routes/employee.route");
 const userRoutes = require("./app/routes/user.route");
 const borrowingCardRouter = require('./app/routes/borrowingCard.route');
 const reportRoutes = require('./app/routes/report.route');
+const authRoutes = require('./app/routes/auth/auth.route')
 //
 app.use(cors());
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use('/api/employee', employeeRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/borrowingCard', borrowingCardRouter);
 app.use('/api/report', reportRoutes);
+app.use('/api/auth', authRoutes);
 
 // handle 404 response
 app.use((req, res, next) => {

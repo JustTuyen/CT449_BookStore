@@ -33,6 +33,31 @@ exports.findAll = async(req, res, next) =>{
     return res.send(documents);
 };
 
+exports.findEmail = async (req, res, next) => {
+    try {
+        const userService = new UserService(MongoDB.client);
+
+        const email = req.query.email; // ?email=value
+
+        if (!email) {
+            return res.status(400).json({ message: "Email query is required" });
+        }
+
+        const user = await userService.findByEmail(email); 
+
+        if (!user) {
+            return res.status(404).json({ message: "Email not found" });
+        }
+
+        return res.json(user);
+
+    } catch (error) {
+        return next(
+            new ApiError(500, "An error occurred while retrieving email")
+        );
+    }
+};
+
 exports.findOne = async (req, res, next) =>{
     try{
         const userService = new UserService(MongoDB.client);

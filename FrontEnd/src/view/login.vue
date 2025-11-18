@@ -1,6 +1,6 @@
 <template>
-    <Nav/>
-    <div class="container-fluid">        
+<Nav/>
+    <div class="container-fluid">   
         <div class="container">
             <div class="wrapper">
                 <div class="card">
@@ -8,9 +8,9 @@
                         <div class="col d-flex flex-column justify-content-center">
                             <img src="../assests/wrapper.avif" alt="" class="login-img">
                         </div>
-                        <div class="col text-center d-flex flex-column justify-content-center">
-                           <div class="card-title">
-                                <h1>Register</h1>
+                        <div class="col d-flex flex-column justify-content-center text-center">
+                            <div class="card-title">
+                                <h1>Login</h1>
                             </div>
                             <h2 class="txt-line">
                                 <span>
@@ -24,22 +24,13 @@
                                     <input type="text" id="username" placeholder="Enter your username"/>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="email" id="email" placeholder="Enter your email"/>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" id="phonenumber" placeholder="Enter your phonenumber"/>
-                                </div>
-                                <div class="mb-3">
                                     <input type="password" id="password" placeholder="Enter your password"/>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="password" id="password" placeholder="Re-enter your password"/>
+                                    <label for="">You don't have an account? <a href="/register">Register!</a></label>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="">Do you already have an account? <a href="/login">Login!</a></label>
-                                </div>
-                                <div class="mb-3">
-                                    <button class="btn btn-Register">Register</button>
+                                    <button class="btn btn-login">Login</button>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +41,7 @@
     </div>
 </template>
 <script setup>
-import Nav from '@/components/nav.vue';
+import Nav from '@/component/navbar.vue';
 </script>
 <style scoped>
 .container-fluid{
@@ -78,12 +69,7 @@ import Nav from '@/components/nav.vue';
     font-weight: bold;
     margin: 5px;
 }
-.login-img{
-    width: 350px;
-    height: 500px;
-    border-radius: 10px;
-    object-fit: cover;
-}
+
 /* text through line */
 .txt-line {
   display: flex;
@@ -101,8 +87,15 @@ import Nav from '@/components/nav.vue';
 .txt-line:after {
   margin-left: 10px
 }
-.btn-Register{
-    width: 100%;
+/* login wrapper */
+.login-img{
+    width: 350px;
+    height: 500px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.btn-login{
+    width: 80%;
     background-color: #007bff;
     color: white;
     border: none;
@@ -110,6 +103,7 @@ import Nav from '@/components/nav.vue';
     border-radius: 5px;
     cursor: pointer;
 }
+
 .mb-3 input{
     width: 100%;
     padding: 10px;

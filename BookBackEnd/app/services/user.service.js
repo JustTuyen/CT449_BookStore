@@ -14,6 +14,7 @@ class UserService{
             NgaySinh: payload.NgaySinh,
             SoDienThoai: payload.SoDienThoai,
             DiaChi: payload.DiaChi,
+            VaiTro: payload.VaiTro,
         };
 
         Object.keys(docgia).forEach(
@@ -45,6 +46,12 @@ class UserService{
         return await this.User.find({
             Ten: { $regex: new RegExp(name), $options: "i" },
         }).toArray();
+    }
+
+    //
+   async findByEmail(email) {
+        if (!email) return null; // safety check
+        return await this.User.findOne({ Email: email });
     }
     
     //httpput

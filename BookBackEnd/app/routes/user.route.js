@@ -4,6 +4,7 @@ const userController = require('../controllers/user.controller');
 // Create a new Publisher
 router.get("/", userController.findAll);
 router.post("/", userController.create);
+router.get("/email", userController.findEmail);
 
 router.get("/:id", userController.findOne);
 router.put("/:id", userController.update);

@@ -5,6 +5,7 @@ const bookController = require('../controllers/book.controller');
 // Create a new Book
 router.get("/", bookController.findAll);
 router.post("/", bookController.create);
+router.get("/publisher", bookController.findNSX);
 
 router.get("/:id", bookController.findOne);
 router.put("/:id", bookController.update);

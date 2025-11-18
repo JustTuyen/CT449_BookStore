@@ -2,6 +2,8 @@ const { ObjectId, ReturnDocument } = require('mongodb');
 class BookService{
     constructor(client){
         this.Book = client.db().collection("Sach");
+        this.Publisher = client.db().collection("NhaXuatBan");
+
     }
 
     extractBookData(payload){
@@ -37,11 +39,23 @@ class BookService{
         return await this.Book.find().toArray();
     }
 
-    async findById(id){
-        return await this.Book.findOne({
-            _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
-        })
+    async findById(id) {
+    try {
+        // Use the correct parameter
+        const book = await this.Book.findOne({ _id: new ObjectId(id) });
+        if (!book) return null;
+
+        const publisher = await this.Publisher.findOne({ _id: new ObjectId(book.NhaXuatBan_ID) });
+
+        return {
+            ...book,
+            TenNhaXuatBan: publisher ? publisher.TenNXB : null
+        };
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error finding book by ID");
     }
+}
     //find by name
     async findByName(name){
         return await this.Book.find({
@@ -49,6 +63,13 @@ class BookService{
         }).toArray();
     }
 
+    //
+    async findByNSB(name){
+        return await this.Book.find({
+            NhaXuatBan_ID: { $regex: new RegExp(name), $options: "i" },
+        }).toArray();
+    }
+    
     //find by name
     async findByPublisher(name){
         return await this.find({
