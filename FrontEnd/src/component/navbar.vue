@@ -12,7 +12,7 @@
           <router-link class="nav-link active" aria-current="page" to="/">Home</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link active" aria-current="page" to="/">Sách</router-link>
+          <router-link class="nav-link active" aria-current="page" to="/Menu">Sách</router-link>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -26,13 +26,21 @@
               <router-link class="dropdown-item" aria-current="page" to="/BorrowingPage">Mượn sách</router-link>
             </li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Logout</a></li>
+            <li><button type="button" style="width: 100%; text-align: center; 
+            border: transparent; background-color: transparent;"
+              @click="logout">Logout</button></li>
           </ul>
         </li>
         <!-- <li class="nav-item">
           <a class="nav-link disabled" aria-disabled="true">Disabled</a>
         </li> -->
       </ul>
+       <span class="login_message" v-if="authStore.user" style="margin-right: 10px;">
+            Hi, {{ TenUser }}!
+        </span>
+        <span v-else style="margin-right: 10px;">
+          <router-link to="/login" class="nav-link active login_message">Login now! </router-link>
+        </span>
       <form class="d-flex" role="search" @submit.prevent="searchWord()">
         <input class="form-control me-2" v-model="keyword"
          type="search" placeholder="Nhập từ khóa tìm kiếm..." aria-label="Search"/>
@@ -45,9 +53,12 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref,computed } from 'vue';
 const keyword = ref("");
 const router = useRouter();
+import { useAuthStore } from '@/store/auth'
+const authStore = useAuthStore();
+const TenUser = computed(() => authStore.user?.Ten);
 
 function searchWord(){
   if(keyword.value.trim()){
@@ -56,6 +67,15 @@ function searchWord(){
     });
   }
 }
+
+const logout = async() =>{
+	if (window.confirm("Bạn có chắc muốn đăng xuất không?")) {
+    //await cartStore.saveUserCart(); 
+    authStore.logout(); 
+    router.push("/login");  
+  }
+}
+
 </script>
 <style scoped>
 </style>

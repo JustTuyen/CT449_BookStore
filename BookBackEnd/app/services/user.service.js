@@ -1,4 +1,6 @@
 const { ObjectId, ReturnDocument } = require('mongodb');
+const bcrypt = require("bcrypt");
+
 class UserService{
     constructor(client){
         this.User = client.db().collection("DocGia");
@@ -26,6 +28,17 @@ class UserService{
 
     //create a new user
     async create(payload){
+        if (!payload.Email) {
+            throw new Error("Email is required");
+        }
+
+        if (!payload.Password) {
+            throw new Error("Password is required");
+        }
+
+        // const hashed = await bcrypt.hash(payload.Password, 10);
+        // payload.Password = hashed;
+
         const user = this.extractUserData(payload);
         const result = await this.User.insertOne(user);
         return result;
@@ -50,13 +63,24 @@ class UserService{
 
     //
    async findByEmail(email) {
-        if (!email) return null; // safety check
-        return await this.User.findOne({ Email: email });
+       if (!email) return null;
+        email = email.trim();
+        return await this.User.findOne({ Email: { $regex: `^${email}$`, $options: "i" } });
     }
     
     //httpput
     async update(id, payload){
+
+         if (payload.Password && payload.Password.trim() !== "") {
+            // const hashed = await bcrypt.hash(payload.Password, 10);
+            // payload.Password = hashed;
+        } else {
+            delete payload.Password; // prevent overwriting existing password
+        }
+
         const update = this.extractUserData(payload);
+        delete update._id; 
+         
         const result = await this.User.findOneAndUpdate(
             { _id: new ObjectId(id) },
             { $set: update }, 

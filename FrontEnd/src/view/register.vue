@@ -19,29 +19,49 @@
                                     </svg>
                                 </span>
                             </h2>
-                            <div class="form">
-                                <div class="mb-3">
-                                    <input type="text" id="username" placeholder="Enter your username"/>
+                            <form class="form" @submit.prevent="handleRegister">
+                                <div class="mb-3 row">
+                                    <div class="col">
+                                        <input type="text" id="username" placeholder="Nhập tên" v-model="Ten"/>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" id="username" placeholder="Nhập họ và đệm"  v-model="HoVaDem"/>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="email" id="email" placeholder="Enter your email"/>
+                                    <input type="email" id="email" placeholder="Nhập email"  v-model="Email"/>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" id="phonenumber" placeholder="Enter your phonenumber"/>
+                                    <input type="text" id="phonenumber" placeholder="Nhập số điện thoại"  v-model="SoDienThoai"/>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="password" id="password" placeholder="Enter your password"/>
+                                    <input type="password" id="password" placeholder="Nhập password"  v-model="Password"/>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="password" id="password" placeholder="Re-enter your password"/>
+                                    <p v-if="errorMessage" style="color: red; font-weight: bold;">{{ errorMessage }}</p>
+                                    <input type="password" id="password" placeholder="Nhập password lần nữa"  v-model="confirmPassword"/>
+                                </div>
+                                 <div class="mb-3 row">
+                                    <div class="col">
+                                        <input type="date" id="username"  v-model="NgaySinh"/>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-select" aria-label="select example" v-model="GioiTinh"
+                                            required>
+                                            <option>Giới tính</option>
+                                            <option value="Nam">Nam</option>
+                                            <option value="Nữ">Nữ</option>
+                                            <option value="Khác">Khác</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="">Do you already have an account? <a href="/login">Login!</a></label>
+                                    <label for="">Đã có tài khoản?<a href="/login">Login!</a></label>
                                 </div>
                                 <div class="mb-3">
-                                    <button class="btn btn-Register">Register</button>
+                                    <button class="btn btn-Register">Đăng ký</button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -51,6 +71,53 @@
 </template>
 <script setup>
 import Nav from '@/component/navbar.vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '../store/auth'
+import {ref} from 'vue';
+const router = useRouter();
+const authStore = useAuthStore();
+//
+const HoVaDem = ref("");
+const Ten = ref("");
+const Email = ref("");
+const Password = ref("");
+const SoDienThoai = ref("");
+const GioiTinh = ref("");
+const VaiTro =  ref("");
+const NgaySinh = ref("");
+const confirmPassword = ref("");
+//
+const errorMessage = ref("");
+
+if (authStore.isAuthenticated) {
+  router.push('/')
+}
+
+const handleRegister = async() =>{
+    errorMessage.value = "";
+
+    if(Password.value !== confirmPassword.value){
+        errorMessage.value = "Mật khẩu không khớp!";
+        return;
+    }
+
+    try{
+        await authStore.register({
+            HoVaDem: HoVaDem.value,
+            Ten: Ten.value,
+            Email: Email.value,
+            SoDienThoai: SoDienThoai.value,
+            GioiTinh: GioiTinh.value,
+            Password: Password.value,
+            VaiTro: 'User',
+            NgaySinh: NgaySinh.value ? NgaySinh.value.slice(0, 10) : ''
+            });
+            router.push('/login');
+        }catch(err){
+            errorMessage.value = "Email nhập đã được sử dụng, vui lòng nhập email khác!";
+        }
+    }
+
 </script>
 <style scoped>
 .container-fluid{
@@ -60,10 +127,10 @@ import Nav from '@/component/navbar.vue';
     width: 100%;
 }
 .wrapper{
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
 }
 .card{
     width: auto;

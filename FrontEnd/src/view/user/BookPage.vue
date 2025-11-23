@@ -71,8 +71,8 @@ import { formatPrice } from '@/ulti/utils';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
-const book = ref(null);
 
+const book = ref(null);
 const props = defineProps({
   id: String
 });

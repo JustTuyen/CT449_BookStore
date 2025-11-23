@@ -43,6 +43,12 @@ class ReportService{
             TrangThai_ID: { $regex: new RegExp(status), $options: "i" },
         }).toArray();
     }
+
+    async findByCard(phieuTheoDoi_ID){
+        return await this.Report.find({
+            PhieuTheoDoi_ID:phieuTheoDoi_ID,
+        }).toArray();
+    }
     
     //httpput
     async update(id, payload){

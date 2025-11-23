@@ -18,26 +18,27 @@
                                 </div>
                                  <div class="mb-3 row">
                                     <label for="exampleInputEmail1" class="form-label">Người Mượn: </label>
-                                     <select class="form-select" aria-label="Default select example" required>
+                                    <input class="form-control" type="text" name="datetime" v-model="TenUser" disabled>
+                                     <!-- <select class="form-select" aria-label="Default select example" required>
                                         <option disabled value="">Người Mượn</option>
                                         <option :value="user._id"  v-for="(user, index) in users" :key="user._id">
                                             #{{ index + 1 }}:  {{ user.HoVaDem }} {{ user.Ten  }}
                                         </option>
-                                    </select>
+                                    </select> -->
                                 </div>
                                  <div class="mb-3 row">
                                     <div class="col">
                                         <label for="exampleInputEmail1" class="form-label">Ngày mượn: </label>
-                                        <input class="form-control" type="datetime-local" name="datetime">
+                                        <input class="form-control" type="datetime-local" name="datetime" v-model="AddCardForm.NgayMuon">
                                     </div>
                                      <div class="col">
                                         <label for="exampleInputEmail1" class="form-label">Ngày trả: </label>
-                                        <input class="form-control"  type="datetime-local" name="datetime">
+                                        <input class="form-control"  type="datetime-local" name="datetime" v-model="AddCardForm.NgayTra">
                                     </div>
                                 </div>
                                 <div class="mb-3 row" v-if="employees.length">
                                     <label for="exampleInputEmail1" class="form-label">Nhân viên: </label>
-                                   <select class="form-select" aria-label="Default select example" required>
+                                   <select class="form-select" aria-label="Default select example" required v-model="AddCardForm.NhanVien_ID">
                                         <option disabled value="">Nhân viên</option>
                                         <option :value="employee._id"  v-for="(employee, index) in employees" :key="employee._id">
                                             #{{ index + 1 }}:  {{ employee.HoVaDem }} {{ employee.Ten  }}
@@ -49,13 +50,14 @@
                                     <input type="text" class="form-control" id="exampleInputEmail1" v-model="book.DonGia" disabled>
                                 </div>
                                 <div class="mb-3 d-flex">
-                                    <button class="btn btn-success" style="width: 100%; margin-right: 10px;">Mượn Sách</button>
+                                    <button class="btn btn-success" style="width: 100%; margin-right: 10px;" @click="submitAddForm"
+                                    >Mượn Sách</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 bg-body-tertiary">
+                <div class="col-lg-3 bg-body-tertiary" v-if="book">
                     <div class="p-5 ">
                         <div class="mb-1 d-flex justify-content-center align-items-center ">
                             <h5>Thông tin sách</h5>
@@ -85,11 +87,16 @@ import Navbar from '@/component/navbar.vue';
 import { formatPrice } from '@/ulti/utils';
 //import Footer from '@/component/footer.vue'
 import axios from 'axios';
+import { useAuthStore } from '@/store/auth';
+const authStrore = useAuthStore();
+const TenUser = authStrore?.user.Ten;
+
+
+//
 import { useRoute } from 'vue-router';
 const route = useRoute();
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 const employees = ref([]);
-const users = ref([]);
 const book = ref(null);
 
 const fetchEmployee = async () => {
@@ -100,16 +107,6 @@ const fetchEmployee = async () => {
     console.error("Error fetching employees:", error);
   }
 };
-
-const fetchUser = async () => {
-  try {
-    const response = await axios.get("http://localhost:3000/api/user/");
-    users.value = response.data;
-  } catch (error) {
-    console.error("Error fetching users:", error);
-  }
-};
-
 async function fetchBookDetails() {
     try {
         const response = await axios.get(`http://localhost:3000/api/book/${route.params.id}`);
@@ -119,26 +116,61 @@ async function fetchBookDetails() {
     }
 }
 
-// const selectedNhanVien = ref("")   
 
-// const creatBorrowingCard = async() =>{
-//     try{
-//         const payload = {
-//             Sach_ID: book.value._id,
-//             DocGia_ID: userId,
-//             NhanVien_ID: "EMP001",          
-//             NgayMuon: new Date().toISOString().split("T")[0],
-//             NgayTra: "",
-//             TrangThai_ID: "pending",         
-//             DonGia: book.value.DonGia,
-//         }
-//     }
-// }
+//
+const AddCardForm = reactive({
+  Sach_ID: '',
+  DocGia_ID: '',
+  NhanVien_ID: '',
+  NgayMuon: '',
+  NgayTra: '',
+  TrangThai_ID: '',
+  DonGia: '',
+});
+
+async function submitAddForm() {
+  const payload = {
+    Sach_ID: book.value._id,
+    DocGia_ID: authStrore.user?.id,
+    NhanVien_ID: AddCardForm.NhanVien_ID,
+    NgayMuon: AddCardForm.NgayMuon ? AddCardForm.NgayMuon.slice(0,10) : '',
+    NgayTra: AddCardForm.NgayTra ? AddCardForm.NgayTra.slice(0,10) : '',
+    TrangThai_ID: '6914bdec56ee2f9ce86fab87',
+    DonGia: book.value.DonGia,
+  };
+
+  try {
+    const response = await axios.post(
+    `http://localhost:3000/api/borrowingcard/`,
+        payload,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  alert('Thêm thành công!');
+  Object.assign(AddCardForm, {
+    Sach_ID: '',
+    DocGia_ID: '',
+    NhanVien_ID: '',
+    NgayMuon: '',
+    NgayTra: '',
+    TrangThai_ID: '',
+    DonGia: '',
+  });
+  } catch (error) {
+    console.error('Failed to add:', error.response?.data || error.message);
+    alert('Thêm thất bại!',  error.response?.data || error.message);
+  } 
+}
+
+
+
 
 onMounted(() => {
     fetchEmployee()
     fetchBookDetails()
-    fetchUser()
 });
 
 </script>

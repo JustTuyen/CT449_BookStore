@@ -72,8 +72,8 @@ exports.update = async(req, res, next) =>{
 
 exports.delete = async (req, res, next) =>{
     try{
-        const bookService = new BookService(MongoDB.client);
-        const document = await bookService.delete(req.params.id);
+        const reportService = new ReportService(MongoDB.client);
+        const document = await reportService.delete(req.params.id);
         if(!document){
             return next(new ApiError(404,"Report not found"));
         }
@@ -81,6 +81,22 @@ exports.delete = async (req, res, next) =>{
     } catch (error) {
         return next(
             new ApiError(500,`Error deleting report with id=${req.params.id}`)
+        );
+    }
+};
+
+
+exports.findByCard = async (req, res, next) =>{
+    try{
+        const reportService = new ReportService(MongoDB.client);
+        const document = await reportService.findByCard(req.params.id);
+        if(!document){
+            return next(new ApiError(404,"Borrowing card not found"));
+        }
+        return res.send(document);
+    } catch (error){
+        return next(
+            new ApiError(500,`Error retrieving borrowing card with id=${req.params.id}`)
         );
     }
 };

@@ -20,18 +20,21 @@
                                 </span>
                             </h2>
                             <div class="form">
-                                <div class="mb-3">
-                                    <input type="text" id="username" placeholder="Enter your username"/>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="password" id="password" placeholder="Enter your password"/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="">You don't have an account? <a href="/register">Register!</a></label>
-                                </div>
-                                <div class="mb-3">
-                                    <button class="btn btn-login">Login</button>
-                                </div>
+                                <form class="login" @submit.prevent="handleLogin">
+                                    <div class="mb-3">
+                                        <input type="text" id="username" 
+                                        placeholder="Nhập email" v-model="Email"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="password" id="password" placeholder="Nhập mật khẩu" v-model="Password"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="">Không có tài khoản? <a href="/register">Đăng ký ngay!</a></label>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="btn btn-login" type="submit">Login</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -42,6 +45,39 @@
 </template>
 <script setup>
 import Nav from '@/component/navbar.vue';
+import { useAuthStore } from '@/store/auth';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+const router = useRouter();
+const authStore = useAuthStore();
+const errorMessage = ref("");
+// const credentials={
+//     Email: "",
+//     Password: ""
+// }
+const Email = ref("");
+const Password = ref("");
+
+if (authStore.isAuthenticated) {
+  router.push('/')
+
+}
+
+const handleLogin = async() =>{
+     const credentials = {
+        Email: Email.value.trim(),
+        Password: Password.value.trim()
+    };
+    console.log("Sending login payload:", credentials);
+    const success = await authStore.login(credentials) //
+    if(success){
+        router.push('/');
+        console.log("Sending login payload:", credentials);
+    }else{
+        errorMessage.value = "Mật khẩu hoặc Email sai! Vui Lòng nhập lại!";
+    }
+}
+
 </script>
 <style scoped>
 .container-fluid{

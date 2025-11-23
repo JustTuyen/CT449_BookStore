@@ -8,17 +8,15 @@ class AuthController{
             const userService = new UserService(req.app.locals.db);
             const { Email, Password } = req.body;
 
-            // Check existing email
-            console.log("Checking email:", Email);
-
             const existingUser = await userService.findByEmail(Email);
             if(existingUser){
                 return res.status(400).json({ message: "Email already exists" });
             }
 
             // Hash password
-            const hashed = await bcrypt.hash(Password, 10);
-            req.body.Password = hashed;
+            //  const cleanPassword = Password.trim().replace(/^"|"$/g, '');
+            // const hashed = await bcrypt.hash(cleanPassword, 10);
+            // req.body.Password = hashed;
 
             await userService.create(req.body);
 
@@ -38,31 +36,39 @@ class AuthController{
     try {
         const userService = new UserService(req.app.locals.db);
         const { Email, Password } = req.body;
+        console.log("Received login:", Email, Password);
 
         const user = await userService.findByEmail(Email);
+        console.log("User found:", user);
+        
         if (!user) {
             return res.status(400).json({ message: "Invalid email or password" });
         }
 
-        const isMatch = await bcrypt.compare(Password, user.Password);
-        if (!isMatch) {
-            return res.status(400).json({ message: "Invalid email or password" });
-        }
+        // const isMatch = await bcrypt.compare(Password, user.Password);
+        // console.log("Password from request:", Password);
+        // console.log("Password hash in DB:", user.Password);
+        // console.log("Password match result:", isMatch);
+
+
+        // if (!isMatch) {
+        //     return res.status(400).json({ message: "Invalid email or password" });
+        // }
+        
+
         const token = jwt.sign(
             { id: user._id, role: user.VaiTro },
             process.env.JWT_SECRET,
             { expiresIn: "1d" }
         );
 
-        // 4️⃣ Send token in a cookie
         res.cookie("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production", // only HTTPS in production
+            secure: process.env.NODE_ENV === "production", 
             maxAge: 24 * 60 * 60 * 1000,
             sameSite: "strict"
         });
 
-        // 5️⃣ Send response
         res.json({
             message: "Login successful",
             token,

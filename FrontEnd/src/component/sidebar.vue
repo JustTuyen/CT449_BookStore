@@ -98,13 +98,24 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useAuthStore } from '@/store/auth'
+const authStore = useAuthStore();
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
 const ToggleMenu = () => {
 	is_expanded.value = !is_expanded.value
 	localStorage.setItem("is_expanded", is_expanded.value)
 }
 
-
+const logout = async() =>{
+	if (window.confirm("Bạn có chắc muốn đăng xuất không?")) {
+    //await cartStore.saveUserCart(); 
+    authStore.logout(); 
+    router.push("/login");  
+  }
+}
 
 
 </script>

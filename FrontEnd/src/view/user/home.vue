@@ -21,7 +21,7 @@
                             </div>
                         <div class="card-body text-center">
                                 <h5>{{ book.TenSach}}</h5>
-                                <p>{{book.MoTa}}</p>
+                                <!-- <p>{{book.MoTa}}</p> -->
                                 <button
                                     class="btn"
                                     :disabled="book.TrangThai_ID !== '6914bddf56ee2f9ce86fab85'"

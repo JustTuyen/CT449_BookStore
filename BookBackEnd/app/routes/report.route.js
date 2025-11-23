@@ -4,6 +4,7 @@ const reportController = require('../controllers/report.controller');
 // Create a new Book
 router.get("/", reportController.findAll);
 router.post("/", reportController.create);
+router.get("/card/:id", reportController.findByCard);
 
 router.get("/:id", reportController.findOne);
 router.put("/:id", reportController.update);

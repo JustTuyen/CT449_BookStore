@@ -44,6 +44,13 @@ class BorrowingCardService{
             TrangThai_ID: { $regex: new RegExp(status), $options: "i" },
         }).toArray();
     }
+
+     //find by name
+    async findByUser(userID){
+        return await this.BorrowingCard.find({
+            DocGia_ID: userID,
+        }).toArray();
+    }
     
     //httpput
     async update(id, payload){
