@@ -19,12 +19,6 @@
                                  <div class="mb-3 row">
                                     <label for="exampleInputEmail1" class="form-label">Người Mượn: </label>
                                     <input class="form-control" type="text" name="datetime" v-model="TenUser" disabled>
-                                     <!-- <select class="form-select" aria-label="Default select example" required>
-                                        <option disabled value="">Người Mượn</option>
-                                        <option :value="user._id"  v-for="(user, index) in users" :key="user._id">
-                                            #{{ index + 1 }}:  {{ user.HoVaDem }} {{ user.Ten  }}
-                                        </option>
-                                    </select> -->
                                 </div>
                                  <div class="mb-3 row">
                                     <div class="col">
@@ -50,7 +44,7 @@
                                     <input type="text" class="form-control" id="exampleInputEmail1" v-model="book.DonGia" disabled>
                                 </div>
                                 <div class="mb-3 d-flex">
-                                    <button class="btn btn-success" style="width: 100%; margin-right: 10px;" @click="submitAddForm"
+                                    <button class="btn btn-success" style="width: 100%; margin-right: 10px;" @click="submitAddForm" type="button"
                                     >Mượn Sách</button>
                                 </div>
                             </form>
@@ -80,18 +74,19 @@
             </div>
         </div>
     </div>
+    <Footer/>
 </template>
 
 <script setup>
 import Navbar from '@/component/navbar.vue';
 import { formatPrice } from '@/ulti/utils';
-//import Footer from '@/component/footer.vue'
+import Footer from '@/component/footer.vue'
 import axios from 'axios';
 import { useAuthStore } from '@/store/auth';
 const authStrore = useAuthStore();
 const TenUser = authStrore?.user.Ten;
-
-
+import { useRouter } from 'vue-router';
+const router = useRouter();
 //
 import { useRoute } from 'vue-router';
 const route = useRoute();
@@ -159,6 +154,8 @@ async function submitAddForm() {
     TrangThai_ID: '',
     DonGia: '',
   });
+    router.push('/BorrowingPage');
+
   } catch (error) {
     console.error('Failed to add:', error.response?.data || error.message);
     alert('Thêm thất bại!',  error.response?.data || error.message);

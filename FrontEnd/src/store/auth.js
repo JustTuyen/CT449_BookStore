@@ -70,7 +70,6 @@ export const useAuthStore = defineStore("auth",{
         headers: { Authorization: `Bearer ${this.token}` },
       });
       this.user = response.data.user;
-      //alert("Cập nhật Profile thành công!");
     } catch (error) {
           window.location.reload();
       console.error("Lỗi cập nhật Profile:", error.response?.data || error.message);

@@ -36,10 +36,10 @@ class AuthController{
     try {
         const userService = new UserService(req.app.locals.db);
         const { Email, Password } = req.body;
-        console.log("Received login:", Email, Password);
+        //console.log("Received login:", Email, Password);
 
         const user = await userService.findByEmail(Email);
-        console.log("User found:", user);
+        //console.log("User found:", user);
         
         if (!user) {
             return res.status(400).json({ message: "Invalid email or password" });

@@ -308,6 +308,7 @@ const updateForm = async (id) => {
     alert('cập nhật thành công');
     window.location.reload();
   } catch (error) {
+     window.location.reload();
     //alert('cập nhật thất bại!', error.response?.data || error.message);
     console.error('Failed to update:', error.response?.data || error.message);
   }

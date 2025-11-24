@@ -8,7 +8,7 @@
     </div>
     <hr class="p-2">
     <div class="content">
-      <div class="wrapper">
+      <div class="wrapper" style="min-height: 65vh;">
          <form @submit.prevent="updatedProfile">
           <div class="mb-3 row">
             <div class="col">
@@ -27,11 +27,11 @@
             <input type="text" class="form-control" placeholder="Nhập email..."
             required v-model="updatedUser.Email">
           </div>
-          <div class="mb-3">
+          <!-- <div class="mb-3">
             <label for="name" class="form-label">Nhập Mật Khẩu:</label>
-            <input type="text" class="form-control" placeholder="Nhập pass..."
+            <input type="password" class="form-control" placeholder="Nhập pass..."
             required v-model="updatedUser.Password">
-          </div>
+          </div> -->
           <div class="mb-3">
             <label for="name" class="form-label">Nhập Số Điện Thoại:</label>
             <input type="text" class="form-control" placeholder="Nhập SĐT..."
@@ -59,13 +59,13 @@
       </div>
     </div>
   </div>
-  <!-- <Footer/> -->
+  <Footer/>
 </template>
 
 <script setup>
 import navbar from '@/component/navbar.vue';
 import Navbar from '@/component/navbar.vue';
-// import Footer from '@/component/footer.vue'
+import Footer from '@/component/footer.vue'
 import axios from 'axios';
 import { ref, onMounted, reactive } from 'vue';
 import { useAuthStore } from '@/store/auth';
@@ -105,7 +105,7 @@ const updatedUser = reactive({
   HoVaDem: '',
   Ten: '',
   Email: '',
-  Password: '',
+  // Password: '',
   GioiTinh: '',
   NgaySinh: '',
   SoDienThoai: '',
@@ -161,5 +161,8 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.7);
   align-items: center;
 }
-
+label .form-label{
+  font-size: 18px;
+  font-weight: bold;
+}
 </style>

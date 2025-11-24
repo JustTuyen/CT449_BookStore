@@ -42,8 +42,10 @@
             </div>
         </div>
     </div>
+    <Footer/>
 </template>
 <script setup>
+import Footer from '@/component/footer.vue';
 import Nav from '@/component/navbar.vue';
 import { useAuthStore } from '@/store/auth';
 import { useRouter } from 'vue-router';

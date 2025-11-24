@@ -22,9 +22,13 @@
             <li>
               <router-link class="dropdown-item" aria-current="page" to="/Profile">Tài khoản</router-link>
             </li>
+              <li>
+              <router-link class="dropdown-item" aria-current="page" to="/Updatepassword">Cập nhật mật khẩu</router-link>
+            </li>
             <li>
               <router-link class="dropdown-item" aria-current="page" to="/BorrowingPage">Mượn sách</router-link>
             </li>
+            
             <li><hr class="dropdown-divider"></li>
             <li><button type="button" style="width: 100%; text-align: center; 
             border: transparent; background-color: transparent;"

@@ -1,7 +1,7 @@
 <template>
 	<aside :class="`${is_expanded ? 'is-expanded' : ''}`">
 		<div class="logo">
-			<h3>QUẢN LÝ MƯỢN SÁCH</h3>
+			<!-- <h3>QUẢN LÝ MƯỢN SÁCH</h3> -->
 		</div>
 		<div class="menu-toggle-wrap">
 			<button class="menu-toggle" @click="ToggleMenu">

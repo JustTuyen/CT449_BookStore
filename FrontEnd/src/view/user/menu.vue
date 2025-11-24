@@ -40,6 +40,7 @@
         </section>
         <hr/>
         <section style="padding: 15px;">
+            <!-- <banner2/> -->
             <div class="header d-flex my-1">
                 <div class="">
                     <h3>NHÀ XUẤT BẢN TÀI TRỢ:</h3>
@@ -92,6 +93,7 @@
 import Navbar from '@/component/navbar.vue';
 import Footer from '@/component/footer.vue'
 import Banner from '@/component/banner.vue'
+// import banner2 from '@/component/banner2.vue';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 const books = ref([]);
