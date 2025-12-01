@@ -1,13 +1,20 @@
 const ApiError = require('../app-error');
 const MongoDB = require('./../utils/mongodb.util');
 const UserService = require('../services/user.service');
+const bcrypt = require("bcrypt");
 
 exports.create = async (req, res, next) => {
+    const saltRounds = 10;
     try {
         const userService = new UserService(MongoDB.client);
-        const result = await userService.create(req.body);
-        res.send(result);
+        
+        const updateData = { ...req.body };
+        if(updateData.Password){
+            updateData.Password = await bcrypt.hash(req.body.Password, saltRounds);
+        }
 
+        const result = await userService.create(updateData);
+        res.send(result);
     } catch (error){
         return next(
             new ApiError(500,"An error occurred while creating the contact")
@@ -74,12 +81,21 @@ exports.findOne = async (req, res, next) =>{
 };
 
 exports.update = async(req, res, next) =>{
+    const saltRounds = 10;
+
     if(Object.keys(req.body).length === 0){
         return next(new ApiError(400,"Data to update can not be empty"));
     }
+
     try{
         const userService = new UserService(MongoDB.client);
-        const document = await userService.update(req.params.id, req.body);
+        
+        const updateData = { ...req.body };
+        if(updateData.Password){
+            updateData.Password = await bcrypt.hash(req.body.Password, saltRounds);
+        }
+        
+        const document = await userService.update(req.params.id, updateData);
         if(!document){
             return next(new ApiError(404,"User not found"));
         }

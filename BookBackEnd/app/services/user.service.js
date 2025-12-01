@@ -72,8 +72,6 @@ class UserService{
     async update(id, payload){
 
          if (payload.Password && payload.Password.trim() !== "") {
-            // const hashed = await bcrypt.hash(payload.Password, 10);
-            // payload.Password = hashed;
         } else {
             delete payload.Password; // prevent overwriting existing password
         }

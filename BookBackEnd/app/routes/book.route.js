@@ -6,6 +6,7 @@ const bookController = require('../controllers/book.controller');
 router.get("/", bookController.findAll);
 router.post("/", bookController.create);
 router.get("/publisher", bookController.findNSX);
+router.get("/takefive", bookController.findOnlyFive);
 
 router.get("/:id", bookController.findOne);
 router.put("/:id", bookController.update);

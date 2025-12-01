@@ -9,6 +9,7 @@ import checkout from "@/view/user/checkout.vue";
 import Profile from "@/view/user/profile.vue";
 import BorrowingPage from "@/view/user/borrowingPage.vue";
 import updatepassword from "@/view/user/updatepassword.vue";
+import ReportPage from "@/view/user/reportPage.vue";
 //
 import Book from "@/view/admin/book.vue";
 import Customer from "@/view/admin/customer.vue";
@@ -29,10 +30,12 @@ const routes = [
     //
     {path: '/Book/:id', component: BookPage, name: 'BookPage', props: true},
 
-    //
+    //ReportPage
     {path: '/Updatepassword', component: updatepassword, name: 'updatepassword', meta:{requiresAuth: true,}},
     {path: '/Profile', component: Profile, name: 'Profile', meta:{requiresAuth: true,}},
     {path: '/BorrowingPage', component: BorrowingPage, name: 'BorrowingPage', meta:{requiresAuth: true,}},
+    {path: '/ReportPage', component: ReportPage, name: 'ReportPage', meta:{requiresAuth: true,}},
+
     //
     {path: '/Login', component: Login, name: 'Login'},
     {path: '/Register', component: Register, name: 'Register'},

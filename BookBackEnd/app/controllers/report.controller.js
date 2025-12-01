@@ -100,3 +100,18 @@ exports.findByCard = async (req, res, next) =>{
         );
     }
 };
+
+exports.findByUser = async (req, res, next) =>{
+    try{
+        const reportService = new ReportService(MongoDB.client);
+        const document = await reportService.findByUser(req.params.id);
+        if(!document){
+            return next(new ApiError(404,"report card not found"));
+        }
+        return res.send(document);
+    } catch (error){
+        return next(
+            new ApiError(500,`Error retrieving report card with id=${req.params.id}`)
+        );
+    }
+};

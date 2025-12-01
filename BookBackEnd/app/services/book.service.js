@@ -39,6 +39,11 @@ class BookService{
         return await this.Book.find().toArray();
     }
 
+    async findFive(){
+        return await this.Book.find().limit(5).toArray();
+    }
+
+
     async findById(id) {
     try {
         // Use the correct parameter

@@ -10,7 +10,7 @@ class ReportService{
             LyDo: payload.LyDo,
             DonGia: payload.DonGia,
             NgayLap: payload.NgayLap,
-            //DocGia_ID : payload.DocGia_ID,
+            DocGia_ID : payload.DocGia_ID,
             TrangThai_ID: payload.TrangThai_ID,
         };
 
@@ -47,6 +47,13 @@ class ReportService{
     async findByCard(phieuTheoDoi_ID){
         return await this.Report.find({
             PhieuTheoDoi_ID:phieuTheoDoi_ID,
+        }).toArray();
+    }
+    
+     //find by name
+    async findByUser(userID){
+        return await this.Report.find({
+            DocGia_ID: userID,
         }).toArray();
     }
     

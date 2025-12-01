@@ -30,7 +30,7 @@
                                         'btn-secondary': book.TrangThai_ID !== '6914bde456ee2f9ce86fab86'
                                     }"
                                 >
-                                    Khám phá ngay!
+                                    {{ book.TrangThai_ID === '6914bddf56ee2f9ce86fab85' ? 'Khám phá ngay!' : 'Đã hết sách' }}
                                 </button>
                             </div>
                         </router-link>
@@ -100,7 +100,7 @@ const books = ref([]);
 const publishers =  ref([]);
 const fetchbooks = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/api/book/");
+    const response = await axios.get("http://localhost:3000/api/book/takefive");
     books.value = response.data;
   } catch (error) {
     console.error("Error fetching books:", error);

@@ -6,7 +6,7 @@
         <h1 class="my-3">QUẢN LÝ BÁO CÁO:</h1>
         <hr class="my-3">
         <div class="actions">
-          <button class="btn btn-success action-btn" @click="addnewModal">Thêm sách</button>
+          <button class="btn btn-success action-btn" @click="addnewModal">Thêm thẻ</button>
           <!-- <button class="btn btn-warning action-btn"></button> -->
         </div>
       </div>
@@ -29,7 +29,8 @@
                 {{ index + 1}}
               </td>
               <td>
-                {{ report.PhieuTheoDoi_ID }}
+                ID phiếu:{{ report.PhieuTheoDoi_ID }}<br/>
+                ID đọc giả: {{ report.DocGia_ID }}
               </td>
               <td>
                 {{ report.LyDo }}
@@ -89,6 +90,14 @@
               </option>
             </select>
           </div>
+           <div class="mb-3">
+            <label for="name" class="form-label">Nhập ID đọc giả:</label>
+           <select class="form-select" required v-model="AddCardForm.DocGia_ID">
+              <option v-for="user in users" :key="user._id" :value="user._id">
+                {{ user._id }} - {{ user.HoVaDem }} {{ user.Ten }}
+              </option>
+            </select>
+          </div>
           <div class="mb-3">
             <label for="name" class="form-label">Nhập lý do:</label>
            <textarea rows="3" type="text" class="form-control" required placeholder="Nhập lý do..." 
@@ -137,6 +146,14 @@
            <select class="form-select" required v-model="UpdateCardForm.PhieuTheoDoi_ID">
               <option v-for="card in cards" :key="card._id" :value="card._id">
                 {{ card._id }}
+              </option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="name" class="form-label">Nhập ID đọc giả:</label>
+           <select class="form-select" required v-model="UpdateCardForm.DocGia_ID">
+              <option v-for="user in users" :key="user._id" :value="user._id">
+                {{ user._id }} - {{ user.HoVaDem }} {{ user.Ten }}
               </option>
             </select>
           </div>
@@ -204,6 +221,7 @@ const AddCardForm = reactive({
   DonGia: '',
   NgayLap: '',
   TrangThai_ID: '',
+  DocGia_ID: '',
 });
 
 function addnewModal() {
@@ -217,6 +235,7 @@ async function submitAddForm() {
     DonGia: AddCardForm.DonGia,
     NgayLap:AddCardForm.NgayLap,
     TrangThai_ID: AddCardForm.TrangThai_ID,
+    DocGia_ID: AddCardForm.DocGia_ID,
   };
 
   try {
@@ -237,6 +256,7 @@ async function submitAddForm() {
     DonGia: '',
     NgayLap: '',
     TrangThai_ID: '',
+    DocGia_ID: '',
   });
   } catch (error) {
     console.error('Failed to add:', error.response?.data || error.message);
@@ -256,6 +276,7 @@ const UpdateCardForm = reactive({
   DonGia: '',
   NgayLap: '',
   TrangThai_ID: '',
+  DocGia_ID: '',
 });
 
 function openUpdateModal(report) {
@@ -266,6 +287,7 @@ function openUpdateModal(report) {
   UpdateCardForm.DonGia = report.DonGia;
   UpdateCardForm.TrangThai_ID = report.TrangThai_ID;
   UpdateCardForm.NgayLap = report.NgayLap?.slice(0, 10);
+  UpdateCardForm.DocGia_ID = report.DocGia_ID;
 }
 
 const updateForm = async (id) => {
@@ -276,6 +298,7 @@ const updateForm = async (id) => {
     DonGia: UpdateCardForm.DonGia,
     TrangThai_ID: UpdateCardForm.TrangThai_ID,
     NgayLap: UpdateCardForm.NgayLap,
+    DocGia_ID: UpdateCardForm.DocGia_ID,
   };
   try {
 
@@ -339,10 +362,21 @@ const deleteItem = async (id) => {
   }
 };
 
+const users = ref([]);
+const fetchuser = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/api/user/");
+    users.value = response.data;
+  } catch (error) {
+    console.error("Error fetching books:", error);
+  }
+};
+
 onMounted(() => {
     fetchreport()
     fetchcards()
     fetchstatus()
+    fetchuser()
 });
 
 </script>

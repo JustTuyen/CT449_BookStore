@@ -30,7 +30,8 @@
                                         'btn-secondary': book.TrangThai_ID !== '6914bde456ee2f9ce86fab86'
                                     }"
                                 >
-                                    Khám phá ngay!
+                                 {{ book.TrangThai_ID === '6914bddf56ee2f9ce86fab85' ? 'Khám phá ngay!' : 'Đã hết sách' }}
+
                                 </button>
                             </div>
                         </router-link>

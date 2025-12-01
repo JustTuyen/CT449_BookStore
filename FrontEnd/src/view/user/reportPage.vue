@@ -1,87 +1,24 @@
 <template>
-  <div class="d-flex bng">
-    <sidebar/>
-    <div class="container-fluid">
+  <navbar/>
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="header d-flex">
       <div class="title">
-        <h1 class="my-3">DASHBOARD</h1>
+        <h1>THẺ PHẠT</h1>
       </div>
-      <section style="margin: 10px 0;">
-        <div class="heads">
-          <h3 class="my-3">Thẻ mượn đang diễn ra</h3>
-        </div>
-        <div class="content">
-           <table id="users">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Thông tin thẻ</th>
-              <th>Ngày mượn</th>
-              <th>Ngày trả</th>
-              <th>Trạng thái</th>
-              <th>Đơn giá</th>
-              <!-- <th>Actions</th> -->
-            </tr>
-          </thead>
-          <tbody v-if="cards.length">
-            <tr v-for="(card, index) in cards.filter(card => card.TrangThai_ID !== '6914bdf056ee2f9ce86fab88')" :key="card._id">
-              <td>
-                {{ index + 1}}
-              </td>
-              <td>
-                <div>
-                  <p><strong>ID sách: </strong>{{ card.Sach_ID }}</p>
-                  <p><strong>ID Đọc giả: </strong>{{ card.DocGia_ID }}</p>
-                  <p><strong>ID Nhân viên: </strong>{{ card.NhanVien_ID }}</p>
-                </div> 
-              </td>
-               <td>
-                 {{ card.NgayMuon
-                    ? new Date(  card.NgayMuon).toLocaleDateString() 
-                    : "Chưa có cập nhật" }}
-              </td>
-               <td>
-                 {{ card.NgayTra
-                    ? new Date( card.NgayTra).toLocaleDateString() 
-                    : "Chưa có cập nhật" }}
-              </td>
-               <td>
-               <div :style="{
-                  backgroundColor: card.TrangThai_ID === '6914bdec56ee2f9ce86fab87' 
-                      ? 'green'
-                      : card.TrangThai_ID === '6914bdf056ee2f9ce86fab88' 
-                          ? '#63A361' 
-                          : 'red',
-                  color: 'white',
-                  borderRadius: '16px',
-                 }">
-                  {{ 
-                      card.TrangThai_ID === '6914bdec56ee2f9ce86fab87' 
-                      ? "Đang hoạt động"
-                      : card.TrangThai_ID === '6914bdf056ee2f9ce86fab88' 
-                          ? "Ngừng hoạt động"
-                          : "Unknown Status" 
-                  }}
-              </div>
-              </td>
-              <td>
-                {{ formatPrice(card.DonGia)}}
-              </td>
-              <!-- <td>
-                <button class="btn btn-warning btns" @click="openUpdateModal(card)" type="button">Update</button>
-                <button class="btn btn-danger btns" @click="deleteItem(card._id)" type="button">Xóa</button>
-              </td> -->
-            </tr>
-          </tbody>
-        </table>
-        </div>
-      </section>
-      <hr classs="my-1">
-      <section style="margin: 10px 0;">
-         <div class="heads">
-          <h3 class="my-3">Thẻ phạt chưa trả</h3>
-        </div>
-        <div class="content">
-           <table id="users">
+   </div>
+    <div class="d-flex" style="border: red 1px dashed; justify-content: center; text-align: center;
+    background-color: #FDACAC; padding: 10px; font-size: 20px; border-radius: 16px; margin: 5px;">
+        <p>Lưu ý: Trễ nhận sách từ 1 ngày trở lên hoặc sách cón tổn hại sẽ nhận phạt!
+            <span style="font-weight: bolder;">Trả phạt</span> tại thư viện. Nhân viên sẽ cập nhật trạng thái sau khi bạn đã trả phạt.
+        </p>
+    </div>
+   <hr class="p-2">
+    <div class="content">
+      <div class="heads">
+        <h5>Chưa trả</h5>
+      </div>
+    </div>
+    <table id="users">
           <thead>
             <tr>
               <th>ID</th>
@@ -93,14 +30,13 @@
               <!-- <th>Actions</th> -->
             </tr>
           </thead>
-          <tbody  v-if="reports.length">
+          <tbody v-if="reports.length">
             <tr v-for="(report, index) in reports.filter(report => report.TrangThai_ID === '691c99b5914a60d368de548e')" :key="report._id">
               <td>
                 {{ index + 1}}
               </td>
               <td>
-                ID phiếu:{{ report.PhieuTheoDoi_ID }}<br/>
-                ID đọc giả: {{ report.DocGia_ID }}
+                <strong>ID phiếu:</strong>{{ report.PhieuTheoDoi_ID }}<br/>
               </td>
               <td>
                 {{ report.LyDo }}
@@ -118,7 +54,7 @@
                   backgroundColor: report.TrangThai_ID === '6914bdec56ee2f9ce86fab87' 
                       ? 'green'
                       : report.TrangThai_ID === '691c99b5914a60d368de548e' 
-                          ? '#FCB53B' 
+                          ? 'blue' 
                           : 'red',
                   color: 'white',
                   borderRadius: '16px',
@@ -133,69 +69,128 @@
               </div>
               </td>
               <!-- <td>
-                <button class="btn btn-warning btns" type="button" @click="openUpdateModal(report)">Update</button>
-                <button class="btn btn-danger btns" @click="deleteItem(report._id)">Xóa</button>
+                <button class="btn btn-warning btns" type="button" @click="openUpdateModal(report)">Trả tiền</button>
               </td> -->
             </tr>
           </tbody>
         </table>
-        </div>
-        
-      </section>
-    </div>
+
+    <br/>
+     <div class="heads">
+        <h5>Đã hoàn thàn</h5>
+      </div>
+        <table id="users">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>ID_phiếu đánh dấu</th>
+              <th>Lý do</th>
+              <th>Đơn giá</th>
+              <th>Ngày Lập</th>
+              <th>Trạng thái</th>
+              <!-- <th>Actions</th> -->
+            </tr>
+          </thead>
+          <tbody v-if="reports.length">
+            <tr v-for="(report, index) in reports.filter(report => report.TrangThai_ID === '6914bdec56ee2f9ce86fab87')" :key="report._id">
+              <td>
+                {{ index + 1}}
+              </td>
+              <td>
+                <strong>ID phiếu:</strong>{{ report.PhieuTheoDoi_ID }}<br/>
+              </td>
+              <td>
+                {{ report.LyDo }}
+              </td>
+              <td>
+                {{ formatPrice(report.DonGia) }}
+              </td>
+               <td>
+                  {{ report.NgayLap 
+                    ? new Date( report.NgayLap).toLocaleDateString() 
+                    : "Chưa có cập nhật" }}
+              </td>
+              <td>
+                 <div :style="{
+                  backgroundColor: report.TrangThai_ID === '6914bdec56ee2f9ce86fab87' 
+                      ? 'green'
+                      : report.TrangThai_ID === '691c99b5914a60d368de548e' 
+                          ? '#63A361' 
+                          : 'red',
+                  color: 'white',
+                  borderRadius: '16px',
+                 }">
+                  {{ 
+                      report.TrangThai_ID === '6914bdec56ee2f9ce86fab87' 
+                      ? "Đã trả"
+                      : report.TrangThai_ID === '691c99b5914a60d368de548e' 
+                          ? "Chưa trả"
+                          : "Unknown Status" 
+                  }}
+              </div>
+              </td>
+              <!-- <td>
+                <button class="btn btn-warning btns" type="button" @click="openUpdateModal(report)">Trả tiền</button>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
   </div>
+  <Footer/>
 </template>
 
 <script setup>
+import navbar from '@/component/navbar.vue';
+import { ref, onMounted} from 'vue';
 import { formatPrice } from '@/ulti/utils';
-import sidebar from '@/component/sidebar.vue';
+import { useAuthStore } from '@/store/auth';
+import Footer from '@/component/footer.vue';
+const authStrore = useAuthStore();
+// DocGia_ID: authStrore.user?.id,
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
-const cards = ref([]);
+const reports = ref([]);
 const fetchcards = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/api/borrowingCard/");
-    cards.value = response.data;
+    const response =
+    await axios.get(`http://localhost:3000/api/report/user/${authStrore.user?.id}`);
+    reports.value = response.data;
   } catch (error) {
-    console.error("Error fetching books:", error);
+    console.error("Error report:", error);
   }
 };
 
-const reports = ref([]);
-const fetchreport = async () => {
-  try {
-    const response = await axios.get("http://localhost:3000/api/report/");
-    reports.value = response.data;
-  } catch (error) {
-    console.error("Error fetching report:", error);
-  }
-};
+
+
 onMounted(() => {
-  fetchcards();
-  fetchreport();
+    fetchcards()
+    //fetchuser()
 });
+
 </script>
 
 <style scoped>
-.bng{
-  background-color: #E4EFE7;
+.container{
+  padding: 10px;
+  min-height: 80vh;
 }
-
+.header{
+  justify-content: center;
+}
 .title{
-  background-color: #ffff;
-  width: 100%;
-  padding: 5px;
+  text-align: center;
+  padding: 10px;
   border: 2px solid #41A67E;
   border-radius: 16px;
 }
-
 .heads{
   width: 20%;
+  margin: 10px;
   background-color: #41A67E;;
   border-radius: 16px;
-  padding: 3px;
+  padding: 5px;
   text-align: center;
 }
+
 /* tbale contaner */
 #users{
 font-family: Arial, Helvetica, sans-serif;

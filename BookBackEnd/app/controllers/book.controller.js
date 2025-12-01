@@ -37,6 +37,24 @@ exports.findAll = async(req, res, next) =>{
     return res.send(documents);
 };
 
+exports.findOnlyFive = async(req, res, next) =>{
+    let documents = [];
+    try{
+        const bookService = new BookService(MongoDB.client);
+        const { name } = req.query;
+        if(name){
+            documents = await bookService.findByName(name);
+        } else {
+            documents = await bookService.findFive();
+        }
+    } catch (error){
+        return next(
+            new ApiError(500,"An error occurred while retrieving contacts")
+        );
+    }
+    return res.send(documents);
+};
+
 exports.findOne = async (req, res, next) =>{
     try{
         const bookService = new BookService(MongoDB.client);

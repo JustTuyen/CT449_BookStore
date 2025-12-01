@@ -5,6 +5,7 @@ const reportController = require('../controllers/report.controller');
 router.get("/", reportController.findAll);
 router.post("/", reportController.create);
 router.get("/card/:id", reportController.findByCard);
+router.get("/user/:id", reportController.findByUser);
 
 router.get("/:id", reportController.findOne);
 router.put("/:id", reportController.update);
