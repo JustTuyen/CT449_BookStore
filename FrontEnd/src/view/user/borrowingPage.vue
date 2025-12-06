@@ -1,6 +1,6 @@
 <template>
   <navbar/>
-  <div class="container" style="padding-bottom: 50px; min-height: 100vh;">
+  <div class="container" style="padding-bottom: 100px; min-height: 100vh;">
     <div class="header d-flex">
       <div class="title">
         <h1>Danh Sách Mượn</h1>
@@ -144,7 +144,7 @@
       </tbody>
     </table>
   </div>
-  <Footer/>
+  <!-- <Footer/> -->
 </template>
 
 <script setup>

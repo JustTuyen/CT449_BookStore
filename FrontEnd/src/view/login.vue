@@ -21,6 +21,7 @@
                             </h2>
                             <div class="form">
                                 <form class="login" @submit.prevent="handleLogin">
+                                    <p v-if="errorMessage" style="color: red; font-weight: bold;">{{ errorMessage }}</p>
                                     <div class="mb-3">
                                         <input type="text" id="username" 
                                         placeholder="Nhập email" v-model="Email"/>

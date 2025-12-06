@@ -23,11 +23,11 @@
                                  <div class="mb-3 row">
                                     <div class="col">
                                         <label for="exampleInputEmail1" class="form-label">Ngày mượn: </label>
-                                        <input class="form-control" type="datetime-local" name="datetime" v-model="AddCardForm.NgayMuon">
+                                        <input class="form-control" type="date" name="datetime" v-model="AddCardForm.NgayMuon">
                                     </div>
                                      <div class="col">
                                         <label for="exampleInputEmail1" class="form-label">Ngày trả: </label>
-                                        <input class="form-control"  type="datetime-local" name="datetime" v-model="AddCardForm.NgayTra">
+                                        <input class="form-control"  type="date" name="datetime" v-model="AddCardForm.NgayTra">
                                     </div>
                                 </div>
                                 <div class="mb-3 row" v-if="employees.length">

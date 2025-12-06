@@ -17,6 +17,11 @@
 </script>
 
 <style scoped>
+/* footer{
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+} */
 ul {
     list-style-type: none;
 }
