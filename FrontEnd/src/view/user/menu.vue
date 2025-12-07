@@ -17,7 +17,7 @@
                         <router-link  class="router-link-active router-link-exact-active" 
                         :to="{ name: 'BookPage', params: { id: String(book._id) } }">
                             <div class="img justify-content-center d-flex">
-                                <img src="../../assests/book0.jpg" alt="Book Cover" class="img-fluid"/>
+                                <img src="../../assests/images.png" alt="Book Cover" class="img-fluid"/>
                             </div>
                         <div class="card-body text-center">
                                 <h5>{{ book.TenSach}}</h5>

@@ -7,6 +7,7 @@ router.get("/", bookController.findAll);
 router.post("/", bookController.create);
 router.get("/publisher", bookController.findNSX);
 router.get("/takefive", bookController.findOnlyFive);
+router.get("/name", bookController.findName);
 
 router.get("/:id", bookController.findOne);
 router.put("/:id", bookController.update);

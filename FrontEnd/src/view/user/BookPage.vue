@@ -5,13 +5,13 @@
       <div class="header">
         <h1>Thông tin sản phẩm:</h1>
       </div>
-      <div class="d-flex justify-content-center align-items-center my-3">
+      <div class="d-flex justify-content-center align-items-center my-5">
         <div class="container">
           <div class="row px-4 item-card">
             <aside class="col-lg-5">
               <div class="rounded-4 mb-3 d-flex justify-content-center">
                 <div class="rounded-4">
-                  <img class="rounded-4 fit card-img" src="../../assests/book0.jpg" />
+                  <img class="card-img" src="../../assests/images.png" />
                 </div>
               </div>
             </aside>
@@ -98,6 +98,9 @@ watch(() => route.params.id, fetchBookDetails);
 </script>
 
 <style scoped>
+.container-fluid{
+  padding: 10px 50px 50px 100px;
+}
 .item-card{
   border: 1px solid black;
   padding: 20px;
@@ -106,5 +109,12 @@ watch(() => route.params.id, fetchBookDetails);
 .btn-borrow{
   width: 100%;
   font-size: 20px;
+}
+
+.card-img{
+  border: 1px solid black;
+  border-radius: 16px;
+  height: 450px;
+  width: 500px;
 }
 </style>

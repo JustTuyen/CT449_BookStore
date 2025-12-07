@@ -19,7 +19,7 @@
                             </div>
                         <div class="card-body text-center">
                                 <h5>{{ book.TenSach}}</h5>
-                                <p>{{book.MoTa}}</p>
+                                <p>{{ formatPrice(book.DonGia) }}</p>
                                 <button
                                     class="btn"
                                     :disabled="book.TrangThai_ID !== '6914bddf56ee2f9ce86fab85'"
@@ -35,11 +35,15 @@
                     </div>
                 </div>
             </div>
+            <div v-else class="d-flex justify-content-center my-5">
+                <h1>Không tìm thấy sách nào với từ khóa "{{ keyword }}"</h1>
+            </div>
         </section>
     </div>
 </template>
 
 <script setup>
+    import { formatPrice } from '@/ulti/utils';
 import Navbar from '@/component/navbar.vue';
 import axios from 'axios';
 import { ref, onMounted, watch } from 'vue';
@@ -51,8 +55,8 @@ const keyword = ref(route.query.keyword || '');
 async function fetchSearchBooks() {
     if(!keyword.value) return; 
     try{
-        const response = await axios.get(`http://localhost:3000/api/book`,{
-            params: {keyword: keyword.value}
+        const response = await axios.get(`http://localhost:3000/api/book/name`,{
+            params: {name: keyword.value}
         });
 
         books.value = response.data;

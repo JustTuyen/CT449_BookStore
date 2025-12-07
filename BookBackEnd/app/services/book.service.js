@@ -69,7 +69,7 @@ class BookService{
     }
 
     //
-    async findByNSB(name){
+    async findByNXB(name){
         return await this.Book.find({
             NhaXuatBan_ID: { $regex: new RegExp(name), $options: "i" },
         }).toArray();
@@ -91,7 +91,8 @@ class BookService{
 
     //httpput
     async update(id, payload){
-        const update = this.extractContactData(payload);
+        const update = this.extractBookData(payload);
+        console.log("Book to update:", update);
         const result = await this.Book.findOneAndUpdate(
             { _id: new ObjectId(id) },
             { $set: update }, 

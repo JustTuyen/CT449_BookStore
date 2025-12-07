@@ -17,7 +17,7 @@
                         <router-link  class="router-link-active router-link-exact-active" 
                         :to="{ name: 'BookPage', params: { id: String(book._id) } }">
                             <div class="img justify-content-center d-flex">
-                                <img src="../../assests/book0.jpg" alt="Book Cover" class="img-fluid"/>
+                                <img src="../../assests/images.png" alt="Book Cover" class="img-fluid"/>
                             </div>
                         <div class="card-body text-center">
                                 <h5>{{ book.TenSach}}</h5>
@@ -41,6 +41,7 @@
         <hr/>
         <section style="padding: 15px;">
             <banner2/>
+            <hr>
             <div class="header d-flex my-1">
                 <div class="">
                     <h3>NHÀ XUẤT BẢN TÀI TRỢ:</h3>
@@ -85,6 +86,40 @@
                 </div>
             </div>
         </section>
+        <hr>
+        <section style="padding: 15px;">
+            <div class="header d-flex my-1">
+                <div class="" style="border: green 2px solid; padding: 5px 10px; border-radius: 16px;">
+                    <h3>TÁC PHẨM TỪ NHÀ XUẤT BẢN TRẺ:</h3>
+                </div>
+            </div>
+            <div class="row d-flex row-cols-md-5 g-5 my-1" v-if="showBooks.length">
+                <div class="col" v-for="Abook in showBooks" :key="Abook._id">
+                    <div class="card">
+                        <router-link  class="router-link-active router-link-exact-active" 
+                        :to="{ name: 'BookPage', params: { id: String(Abook._id) } }">
+                            <div class="img justify-content-center d-flex">
+                                <img src="../../assests/book0.jpg" alt="Book Cover" class="img-fluid"/>
+                            </div>
+                        <div class="card-body text-center">
+                                <h5>{{ Abook.TenSach}}</h5>
+                                <!-- <p>{{book.MoTa}}</p> -->
+                                <button
+                                    class="btn"
+                                    :disabled="Abook.TrangThai_ID !== '6914bddf56ee2f9ce86fab85'"
+                                    :class="{
+                                        'btn-success': Abook.TrangThai_ID === '6914bddf56ee2f9ce86fab85',
+                                        'btn-secondary': Abook.TrangThai_ID !== '6914bde456ee2f9ce86fab86'
+                                    }"
+                                >
+                                    {{ Abook.TrangThai_ID === '6914bddf56ee2f9ce86fab85' ? 'Khám phá ngay!' : 'Đã hết sách' }}
+                                </button>
+                            </div>
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+        </section>
         <hr/>
     </div>
     <Footer/>
@@ -116,8 +151,20 @@ const fetchpublishers = async () => {
   }
 };
 
+const showBooks = ref([]);
+const fetchBookFromApublishers = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/api/book/publisher?publisher=692009e242184f79447a67ea");
+    showBooks.value = response.data;
+  } catch (error) {
+    console.error("Error fetching showBooks:", error);
+  }
+};
+
+//692009e242184f79447a67ea
 onMounted(() => {
     fetchbooks()
+    fetchBookFromApublishers()
     fetchpublishers()
 });
 

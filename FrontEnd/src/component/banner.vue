@@ -10,7 +10,7 @@
             <img src="../assests/banner0.jpg" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-            <img src="../assests/banner0.jpg" class="d-block w-100" alt="...">
+            <img src="../assests/banner3.jpg" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
             <img src="../assests/banner0.jpg" class="d-block w-100" alt="...">

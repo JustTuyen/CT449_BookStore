@@ -58,7 +58,7 @@
                         </div>
                         <hr/>
                         <div class="mb-3 justify-content-center align-items-center d-flex">
-                            <img src="../../assests/book0.jpg" alt="img-book" class="img-card img-fluid rounded-3">
+                            <img src="../../assests/images.png" alt="img-book" class="img-card img-fluid rounded-3">
                         </div>
                         <div class="mb-3">
                             <p><strong>Tên sách: </strong>{{ book.TenSach }}</p>
